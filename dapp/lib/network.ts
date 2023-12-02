@@ -1,13 +1,13 @@
 import { MetaMaskChainInterface } from "../hooks/metamask.hook";
 
 export const main: MetaMaskChainInterface = {
-  chainId: 1130,
-  chainName: "MetaChain",
+  chainId: 250,
+  chainName: "Fantom",
   nativeCurrency: {
-    name: "DFI",
-    symbol: "DFI",
+    name: "Fantom",
+    symbol: "FTM",
     decimals: 18,
   },
-  rpcUrls: ["https://dmc.mydefichain.com/mainnet"],
-  blockExplorerUrls: ["https://mainnet-dmc.mydefichain.com:8441/"],
+  rpcUrls: ["https://rpc.ankr.com/fantom"],
+  blockExplorerUrls: ["https://ftmscan.com"],
 };

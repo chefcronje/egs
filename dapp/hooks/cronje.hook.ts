@@ -1,12 +1,12 @@
 import Web3 from "web3";
-import HOSPIUM_ABI from "../lib/hospium.abi.json";
+import CRONJE_ABI from "../lib/cronje.abi.json";
 import TOKEN_ABI from "../lib/token.abi.json";
 import { useWalletContext } from "../contexts/wallet.context";
 import { Contract } from "web3-eth-contract";
 import { useEffect, useMemo, useState } from "react";
 import BigNumber from "bignumber.js";
 
-export interface HospiumInterface {
+export interface CronjeInterface {
   reload: () => void;
   remainingSupply?: BigNumber;
   burnedInput?: BigNumber;
@@ -23,10 +23,10 @@ export interface HospiumInterface {
   balanceOfInputToken?: BigNumber;
 }
 
-export function useHospium(): HospiumInterface {
+export function useCronje(): CronjeInterface {
   const { address, chain, block } = useWalletContext();
   const web3 = new Web3(Web3.givenProvider);
-  const hospiumContractAddress = "0x74FA4eb5a2b312E0e877f8B862641639DDB75F65";
+  const cronjeContractAddress = "0xE6cD2F009bB1EA14EbE785bcFa3F30e8CF4d4653";
 
   const [remainingSupply, setRemainingSupply] = useState<BigNumber>();
   const [burnedInput, setBurnedInput] = useState<BigNumber>();
@@ -41,7 +41,7 @@ export function useHospium(): HospiumInterface {
   const [balanceOfInputToken, setBalanceOfInputToken] = useState<BigNumber>();
 
   function createContract(): Contract {
-    return new web3.eth.Contract(HOSPIUM_ABI as any, hospiumContractAddress);
+    return new web3.eth.Contract(CRONJE_ABI as any, cronjeContractAddress);
   }
 
   function errorHandler(e: any) {}
@@ -101,7 +101,7 @@ export function useHospium(): HospiumInterface {
     return new BigNumber(
       web3.utils.fromWei(
         await createContract().methods.burnedInput().call(),
-        "ether"
+        "mwei"
       )
     );
   }
@@ -110,7 +110,7 @@ export function useHospium(): HospiumInterface {
     return new BigNumber(
       web3.utils.fromWei(
         await createContract().methods.inputToLP().call(),
-        "ether"
+        "mwei"
       )
     );
   }
@@ -119,7 +119,7 @@ export function useHospium(): HospiumInterface {
     return new BigNumber(
       web3.utils.fromWei(
         await createContract().methods.swappedInput().call(),
-        "ether"
+        "mwei"
       )
     );
   }
@@ -139,7 +139,7 @@ export function useHospium(): HospiumInterface {
     return createContract()
       .methods.tokensForInput(weiAmount)
       .call()
-      .then((v: any) => web3.utils.fromWei(v, "ether"))
+      .then((v: any) => web3.utils.fromWei(v, "mwei"))
       .then((v: any) => setEstimatedReceivedTokens(new BigNumber(v)));
   }
 
@@ -147,7 +147,7 @@ export function useHospium(): HospiumInterface {
     if (isBuying || approvedAmount?.isLessThan(amount)) return;
     setIsBuying(true);
     return createContract()
-      .methods.getToken(web3.utils.toWei(amount, "ether"))
+      .methods.getToken(web3.utils.toWei(amount, "mwei"))
       .send({
         from: address,
       })
@@ -168,9 +168,9 @@ export function useHospium(): HospiumInterface {
     return new BigNumber(
       web3.utils.fromWei(
         await contract.methods
-          .allowance(address, hospiumContractAddress)
+          .allowance(address, cronjeContractAddress)
           .call(),
-        "ether"
+        "mwei"
       )
     );
   }
@@ -180,7 +180,7 @@ export function useHospium(): HospiumInterface {
     setIsBuying(true);
     const contract = new web3.eth.Contract(TOKEN_ABI as any, inputTokenAddress);
     return contract.methods
-      .approve(hospiumContractAddress, web3.utils.toWei(amount, "ether"))
+      .approve(cronjeContractAddress, web3.utils.toWei(amount, "mwei"))
       .send({
         from: address,
       })
@@ -203,7 +203,7 @@ export function useHospium(): HospiumInterface {
     return new BigNumber(
       web3.utils.fromWei(
         await contract.methods.balanceOf(address).call(),
-        "ether"
+        "mwei"
       )
     );
   }

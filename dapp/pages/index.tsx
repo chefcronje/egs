@@ -3,7 +3,7 @@ import {
   WalletContextProvider,
   useWalletContext,
 } from "@/contexts/wallet.context";
-import { useHospium } from "@/hooks/hospium.hook";
+import { useCronje } from "@/hooks/cronje.hook";
 import { useMetaMask } from "@/hooks/metamask.hook";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -40,12 +40,12 @@ function HomeContent() {
     approvedAmount,
     approveAmount,
     balanceOfInputToken,
-  } = useHospium();
+  } = useCronje();
   const { chain, addContract, requestChangeToChain } = useMetaMask();
   const [amount, setAmount] = useState<string>("");
   const needsChainChange = chainId !== undefined && chain.chainId !== chainId;
 
-  console.info(`don't look at my console, get some hospium instead`);
+  console.info(`don't look at my console, get some cronje instead`);
 
   function formatNumber(value: number): string {
     let postfix = "";
@@ -77,15 +77,15 @@ function HomeContent() {
   return (
     <>
       <Head>
-        <title>$HOSP</title>
+        <title>$CROJNE</title>
         <link rel="icon" href="/favicon.ico" />
         <meta charSet="UTF-8" />
-        <meta name="description" content="Get your hospium by buying $HOSP" />
+        <meta name="description" content="Honor your chef by buying $CRONJE" />
       </Head>
       <main className="min-h-screen flex flex-col items-center">
         <div className="navbar">
           <div className="flex-1">
-            <a className="btn btn-ghost text-xl">Hospium</a>
+            <a className="btn btn-ghost text-xl">Chef Cronje</a>
           </div>
           <div className="flex flex-row gap-4">
             <p className="text-sm text-slate-500 hidden md:flex">
@@ -122,7 +122,7 @@ function HomeContent() {
           <div className="card mx-4 md:w-128 bg-slate-100 shadow-xl mt-16">
             <div className="card-body">
               <h2 className="card-title">
-                Get your hospium by buying <p className="text-primary">$HOSP</p>
+                Honor your chef by buying <p className="text-primary">$CRONJE</p>
               </h2>
               <div
                 className="cursor-pointer"
@@ -132,7 +132,7 @@ function HomeContent() {
                 onKeyDown={() => {}}
               >
                 Balance: {balanceOfInputToken?.toFixed(2).toString() ?? "0"}{" "}
-                <strong className="text-secondary">DUSD</strong>
+                <strong className="text-secondary">USDC (multi)</strong>
               </div>
               <div className="flex flex-row items-center">
                 <input
@@ -143,12 +143,12 @@ function HomeContent() {
                   value={amount}
                   onChange={(e) => handleAmountChanged(e.target.value)}
                 />
-                <strong className="text-secondary">DUSD</strong>
+                <strong className="text-secondary">USDC</strong>
               </div>
               {estimatedReceivedTokens ? (
                 <p>
                   Estimation: {estimatedReceivedTokens?.toString() ?? ""}{" "}
-                  <strong className="text-primary">HOSP</strong>
+                  <strong className="text-primary">CRONJE</strong>
                 </p>
               ) : (
                 <p>
@@ -179,7 +179,7 @@ function HomeContent() {
             <div className="card-body">
               <p>
                 Please connect your wallet to be able to receive{" "}
-                <strong className="text-primary">HOSP</strong>
+                <strong className="text-primary">CRONJE</strong>
               </p>
             </div>
           </div>
@@ -189,44 +189,40 @@ function HomeContent() {
             <div className="card-body">
               <h2 className="card-title">Statistics</h2>
               <p>
-                Total supply: {formatNumber(8_000_000)}{" "}
-                <strong className="text-primary">HOSP</strong>
+                Total supply: {formatNumber(3_000_000)}{" "}
+                <strong className="text-primary">CRONJE</strong>
               </p>
               <p>
                 Remaining supply:{" "}
                 {formatNumber(remainingSupply?.toNumber() ?? 0)}{" "}
-                <strong className="text-primary">HOSP</strong> (
-                {remainingSupply?.div(8_000_000).times(100).toFixed(8)}
+                <strong className="text-primary">CRONJE</strong> (
+                {remainingSupply?.div(3_000_000).times(100).toFixed(8)}
                 %)
               </p>
               <p>
                 Initial price: 1{" "}
-                <strong className="text-secondary">DUSD</strong> /{" "}
-                <strong className="text-primary">HOSP</strong>
+                <strong className="text-secondary">USDC</strong> /{" "}
+                <strong className="text-primary">CRONJE</strong>
               </p>
               <p>
-                Max price: 50 <strong className="text-secondary">DUSD</strong> /{" "}
-                <strong className="text-primary">HOSP</strong>
+                Max price: 100 <strong className="text-secondary">USDC</strong> /{" "}
+                <strong className="text-primary">CRONJE</strong>
               </p>
               <p>Burn rate: 66.7%</p>
               <p>
-                Max burn: &gt;100 M{" "}
-                <strong className="text-secondary">DUSD</strong>
-              </p>
-              <p>
                 Added liquidity: {formatNumber(inputToLP?.toNumber() ?? 0)}{" "}
-                <strong className="text-secondary">DUSD</strong>
+                <strong className="text-secondary">USDC</strong>
               </p>
               <p>
                 Burned: {formatNumber(burnedInput?.toNumber() ?? 0)}{" "}
-                <strong className="text-secondary">DUSD</strong>
+                <strong className="text-secondary">USDC</strong>
               </p>
               <p>
                 Swapped: {formatNumber(swappedInput?.toNumber() ?? 0)}{" "}
-                <strong className="text-secondary">DUSD</strong>
+                <strong className="text-secondary">USDC</strong>
               </p>
               <p className="text-sm font-normal text-slate-500">
-                (Amount of DUSD which are swapped to HOSP after adding to
+                (Amount of USDC which are swapped to CRONJE after adding to
                 liquidity pool)
               </p>
             </div>
@@ -236,20 +232,18 @@ function HomeContent() {
           <div className="card-body">
             <h2 className="card-title">Infos</h2>
             <p>
-              In <strong className="text-primary">$HOSP</strong> we trust. It
-              could go up or down or sideways.
-            </p>
-            <p>Back on the road to 50.</p>
-            <p>
-              Each purchase increases the coin price up to a cap of 50{" "}
-              <strong className="text-secondary">DUSD</strong>.
+              We love <strong className="text-primary">$CRONJE</strong>, and he keeps cooking till the bridge is back up, or not.
             </p>
             <p>
-              66.67% <strong className="text-secondary">DUSD</strong> burned
+              Each purchase increases the coin price up to a cap of 100{" "}
+              <strong className="text-secondary">USDC</strong>.
             </p>
             <p>
-              33.33% <strong className="text-secondary">DUSD</strong> used to
-              form liquidity on Vanilla Swap
+              66.67% <strong className="text-secondary">USDC</strong> burned
+            </p>
+            <p>
+              33.33% <strong className="text-secondary">USDC</strong> used to
+              form liquidity on Wigo Swap
             </p>
             <strong>Tokenomics</strong>
             <p>100% community allocation - 0% team allocation</p>
@@ -260,7 +254,7 @@ function HomeContent() {
             <h2 className="card-title">Contracts</h2>
 
             <p className="mt-4 break-all text-sm">
-              <strong className="text-primary">HOSP</strong>:{" "}
+              <strong className="text-primary">CRONJE</strong>:{" "}
               {outputTokenAddress}
             </p>
             <button
@@ -269,10 +263,10 @@ function HomeContent() {
                 outputTokenAddress && addContract(outputTokenAddress)
               }
             >
-              Add HOSP to MetaMask
+              Add CRONJE to MetaMask
             </button>
             <p className="mt-4 break-all text-sm">
-              <strong className="text-secondary">DUSD</strong>:{" "}
+              <strong className="text-secondary">USDC</strong>:{" "}
               {inputTokenAddress}
             </p>
             <button
@@ -281,7 +275,7 @@ function HomeContent() {
                 inputTokenAddress && addContract(inputTokenAddress)
               }
             >
-              Add DUSD to MetaMask
+              Add USDC to MetaMask
             </button>
           </div>
         </div>
@@ -289,8 +283,8 @@ function HomeContent() {
           <div className="card-body">
             <h2 className="card-title">Disclaimer</h2>
             <p>
-              Anyone buying or interacting with Hospium is doing so at their own
-              risk. We take no responsibility whatsoever.
+              Anyone buying or interacting with $CRONJE is doing so at their own
+              risk. We take no responsibility whatsoever. Test in prod.
             </p>
           </div>
         </div>
