@@ -139,7 +139,7 @@ export function useCronje(): CronjeInterface {
     return createContract()
       .methods.tokensForInput(weiAmount)
       .call()
-      .then((v: any) => web3.utils.fromWei(v, "mwei"))
+      .then((v: any) => web3.utils.fromWei(v, "ether"))
       .then((v: any) => setEstimatedReceivedTokens(new BigNumber(v)));
   }
 
