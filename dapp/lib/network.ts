@@ -1,13 +1,13 @@
 import { MetaMaskChainInterface } from "../hooks/metamask.hook";
 
 export const main: MetaMaskChainInterface = {
-  chainId: 250,
-  chainName: "Fantom",
+  chainId: 43113,
+  chainName: "Fuji",
   nativeCurrency: {
-    name: "Fantom",
-    symbol: "FTM",
+    name: "Avalanche",
+    symbol: "AVAX",
     decimals: 18,
   },
-  rpcUrls: ["https://rpc.ankr.com/fantom"],
+  rpcUrls: ["https://avalanche-fuji-c-chain.publicnode.com"],
   blockExplorerUrls: ["https://ftmscan.com"],
 };

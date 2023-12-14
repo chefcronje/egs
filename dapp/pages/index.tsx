@@ -3,7 +3,7 @@ import {
   WalletContextProvider,
   useWalletContext,
 } from "@/contexts/wallet.context";
-import { useCronje } from "@/hooks/cronje.hook";
+import { useEGSI } from "@/hooks/egsi.hook";
 import { useMetaMask } from "@/hooks/metamask.hook";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -40,12 +40,12 @@ function HomeContent() {
     approvedAmount,
     approveAmount,
     balanceOfInputToken,
-  } = useCronje();
+  } = useEGSI();
   const { chain, addContract, requestChangeToChain } = useMetaMask();
   const [amount, setAmount] = useState<string>("");
   const needsChainChange = chainId !== undefined && chain.chainId !== chainId;
 
-  console.info(`don't look at my console, get some cronje instead`);
+  console.info(`don't look at my console, get some egs instead`);
 
   function formatNumber(value: number): string {
     let postfix = "";
@@ -71,21 +71,22 @@ function HomeContent() {
   }
 
   function needsApproval(): boolean {
+    console.log(approvedAmount +" and "+ amount);
     return approvedAmount?.isLessThan(amount) ?? true;
   }
 
   return (
     <>
       <Head>
-        <title>$CROJNE</title>
+        <title>Emin Gün Sirer $EGS</title>
         <link rel="icon" href="/favicon.ico" />
         <meta charSet="UTF-8" />
-        <meta name="description" content="Honor your chef by buying $CRONJE" />
+        <meta name="description" content="4) What? -  Emin Gün Sirer $EGS" />
       </Head>
       <main className="min-h-screen flex flex-col items-center">
         <div className="navbar">
           <div className="flex-1">
-            <a className="btn btn-ghost text-xl">Chef Cronje</a>
+            <a className="btn btn-ghost text-xl">Emin Gün Sirer</a>
           </div>
           <div className="flex flex-row gap-4">
             <p className="text-sm text-slate-500 hidden md:flex">
@@ -122,7 +123,7 @@ function HomeContent() {
           <div className="card mx-4 md:w-128 bg-slate-100 shadow-xl mt-16">
             <div className="card-body">
               <h2 className="card-title">
-                Honor your chef by buying <p className="text-primary">$CRONJE</p>
+                In Emin Gün Sirer we trust, buy<p className="text-primary">$EGS</p>
               </h2>
               <div
                 className="cursor-pointer"
@@ -131,24 +132,25 @@ function HomeContent() {
                 }
                 onKeyDown={() => {}}
               >
-                Balance: {balanceOfInputToken?.toFixed(2).toString() ?? "0"}{" "}
-                <strong className="text-secondary">USDC (multi)</strong>
+                Balance: {balanceOfInputToken?.toFixed(4).toString() ?? "0"}{" "}
+                <strong className="text-secondary">WAVAX</strong>
               </div>
               <div className="flex flex-row items-center">
                 <input
                   type="number"
-                  placeholder="Amount"
+                  placeholder="Amount (max. 1) - every hour"
+                  max={1}
                   className="input input-bordered input-primary w-full mr-4"
                   onWheel={(e) => e.currentTarget.blur()}
                   value={amount}
                   onChange={(e) => handleAmountChanged(e.target.value)}
                 />
-                <strong className="text-secondary">USDC</strong>
+                <strong className="text-secondary">WAVAX</strong>
               </div>
               {estimatedReceivedTokens ? (
                 <p>
                   Estimation: {estimatedReceivedTokens?.toString() ?? ""}{" "}
-                  <strong className="text-primary">CRONJE</strong>
+                  <strong className="text-primary">EGS</strong>
                 </p>
               ) : (
                 <p>
@@ -179,7 +181,7 @@ function HomeContent() {
             <div className="card-body">
               <p>
                 Please connect your wallet to be able to receive{" "}
-                <strong className="text-primary">CRONJE</strong>
+                <strong className="text-primary">EGS</strong>
               </p>
             </div>
           </div>
@@ -189,40 +191,35 @@ function HomeContent() {
             <div className="card-body">
               <h2 className="card-title">Statistics</h2>
               <p>
-                Total supply: {formatNumber(3_000_000)}{" "}
-                <strong className="text-primary">CRONJE</strong>
+                Total supply: {formatNumber(10_000_000)}{" "}
+                <strong className="text-primary">EGS</strong>
               </p>
               <p>
                 Remaining supply:{" "}
                 {formatNumber(remainingSupply?.toNumber() ?? 0)}{" "}
-                <strong className="text-primary">CRONJE</strong> (
-                {remainingSupply?.div(3_000_000).times(100).toFixed(8)}
+                <strong className="text-primary">EGS</strong> (
+                {remainingSupply?.div(10_000_000).times(100).toFixed(18)}
                 %)
               </p>
               <p>
-                Initial price: 1{" "}
-                <strong className="text-secondary">USDC</strong> /{" "}
-                <strong className="text-primary">CRONJE</strong>
+                Initial price: 0.001{" "}
+                <strong className="text-secondary">AVAX</strong> /{" "}
+                <strong className="text-primary">EGS</strong>
               </p>
               <p>
-                Max price: 100 <strong className="text-secondary">USDC</strong> /{" "}
-                <strong className="text-primary">CRONJE</strong>
+                Max price: 1 <strong className="text-secondary">AVAX</strong> /{" "}
+                <strong className="text-primary">EGS</strong>
               </p>
-              <p>Burn rate: 66.7%</p>
               <p>
                 Added liquidity: {formatNumber(inputToLP?.toNumber() ?? 0)}{" "}
-                <strong className="text-secondary">USDC</strong>
-              </p>
-              <p>
-                Burned: {formatNumber(burnedInput?.toNumber() ?? 0)}{" "}
-                <strong className="text-secondary">USDC</strong>
+                <strong className="text-secondary">AVAX</strong>
               </p>
               <p>
                 Swapped: {formatNumber(swappedInput?.toNumber() ?? 0)}{" "}
-                <strong className="text-secondary">USDC</strong>
+                <strong className="text-secondary">AVAX</strong>
               </p>
               <p className="text-sm font-normal text-slate-500">
-                (Amount of USDC which are swapped to CRONJE after adding to
+                (Amount of AVAX which are swapped to EGS after adding to
                 liquidity pool)
               </p>
             </div>
@@ -232,21 +229,26 @@ function HomeContent() {
           <div className="card-body">
             <h2 className="card-title">Infos</h2>
             <p>
-              We love <strong className="text-primary">$CRONJE</strong>, and he keeps cooking till the bridge is back up, or not.
+              We love Emin Gün Sirer and his <strong className="text-primary">$EGS</strong>.
+              He keeps building no matter what.
             </p>
             <p>
-              Each purchase increases the coin price up to a cap of 100{" "}
-              <strong className="text-secondary">USDC</strong>.
-            </p>
-            <p>
-              66.67% <strong className="text-secondary">USDC</strong> burned
-            </p>
-            <p>
-              33.33% <strong className="text-secondary">USDC</strong> used to
-              form liquidity on Wigo Swap
+              Each purchase increases the coin price.
+              Max buy is 1 AVAX per wallet each hour!
+              Unsold tokens will be burnt.
             </p>
             <strong>Tokenomics</strong>
-            <p>100% community allocation - 0% team allocation</p>
+            <p>95% community allocation - 5% team allocation</p>
+            <p>
+              95% <strong className="text-secondary">AVAX</strong> used to
+              form liquidity on TraderJoe
+            </p>
+            <p>
+              5% <strong className="text-secondary">AVAX</strong> for marketing
+            </p>
+            <p>
+              0% <strong className="text-secondary">AVAX</strong> trading taxes
+            </p>
           </div>
         </div>
         <div className="card mx-4 md:w-128 bg-slate-100 shadow-xl mt-16">
@@ -254,7 +256,7 @@ function HomeContent() {
             <h2 className="card-title">Contracts</h2>
 
             <p className="mt-4 break-all text-sm">
-              <strong className="text-primary">CRONJE</strong>:{" "}
+              <strong className="text-primary">EGS</strong>:{" "}
               {outputTokenAddress}
             </p>
             <button
@@ -263,10 +265,10 @@ function HomeContent() {
                 outputTokenAddress && addContract(outputTokenAddress)
               }
             >
-              Add CRONJE to MetaMask
+              Add EGS to MetaMask
             </button>
             <p className="mt-4 break-all text-sm">
-              <strong className="text-secondary">USDC</strong>:{" "}
+              <strong className="text-secondary">WAVAX</strong>:{" "}
               {inputTokenAddress}
             </p>
             <button
@@ -275,7 +277,7 @@ function HomeContent() {
                 inputTokenAddress && addContract(inputTokenAddress)
               }
             >
-              Add USDC to MetaMask
+              Add AVAX to MetaMask
             </button>
           </div>
         </div>
@@ -283,7 +285,7 @@ function HomeContent() {
           <div className="card-body">
             <h2 className="card-title">Disclaimer</h2>
             <p>
-              Anyone buying or interacting with $CRONJE is doing so at their own
+              Anyone buying or interacting with $EGS is doing so at their own
               risk. We take no responsibility whatsoever. Test in prod.
             </p>
           </div>

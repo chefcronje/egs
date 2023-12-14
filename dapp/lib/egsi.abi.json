@@ -2,7 +2,7 @@
 	{
 		"inputs": [
 			{
-				"internalType": "contract Wigo",
+				"internalType": "contract TraderJoe",
 				"name": "_dex",
 				"type": "address"
 			},
@@ -20,6 +20,11 @@
 				"internalType": "address",
 				"name": "allowedTradeIn",
 				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "marketing",
+				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -27,7 +32,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "burnedInput",
+		"name": "pumpInput",
 		"outputs": [
 			{
 				"internalType": "uint256",

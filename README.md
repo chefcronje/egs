@@ -1,1 +1,1 @@
-### Use those worthless $USDCs (multi)
+### Emin Gün Sirer ($EGS)
