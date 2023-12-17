@@ -26,7 +26,7 @@ export interface EGSIInterface {
 export function useEGSI(): EGSIInterface {
     const {address, chain, block} = useWalletContext();
     const web3 = new Web3(Web3.givenProvider);
-    const egsiContractAddress = "0x17156a2840d2f3d7734eea3FC85506bf00cfd79e";
+    const egsiContractAddress = "0xC8d7e4250b0BC9977F37A7817914aB1d5188e5F6";
 
     const [remainingSupply, setRemainingSupply] = useState<BigNumber>();
     const [burnedInput, setBurnedInput] = useState<BigNumber>();
